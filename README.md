@@ -1,1 +1,1 @@
-# Trianglify : Photo editing app
+# Photo editing app
