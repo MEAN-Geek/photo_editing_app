@@ -1,0 +1,8 @@
+{
+  "name": "Demotriangify",
+  "app_id": "783ff3da",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}

@@ -1,0 +1,89 @@
+<ion-header no-border id="cameraHeader">
+  <ion-toolbar *ngIf="!device">
+    <ion-buttons start class="flashMode">
+      <button ion-button class="modeBtn" (click)="onFocusMode()">
+        <ion-icon [name]="isFlashMode ? 'ios-flash' : 'ios-flash-outline'" style="font-size : 30px; color : #ffffff"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end class="colorEffect">
+      <button ion-button class="modeBtn" (click)="openFilterGrid()">
+        <ion-icon name="ios-color-filter" style="font-size : 30px; color : #ffffff"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+
+  <ion-toolbar *ngIf="device">
+    <ion-buttons left>
+      <button ion-button icon-only (click)="onFocusMode()">
+        <ion-icon [name]="isFlashMode ? 'ios-flash' : 'ios-flash-outline'" style="font-size : 30px; color : #ffffff"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons right>
+      <button ion-button class="modeBtn" (click)="openFilterGrid()">
+        <ion-icon name="ios-color-filter" style="font-size : 30px; color : #ffffff"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content style="background-color : #000000;">
+  <div>
+    <div [hidden]="!colorTypes">
+      <div class="row">
+        <div class="col col-6">
+          <img src="assets/1.png" width="100%" (click)="onColorEffect('none')" />
+        </div>
+        <div class="col col-6">
+          <img src="assets/2.png" width="100%" (click)="onColorEffect('mono')" />
+        </div>
+        <div class="col col-6">
+          <img src="assets/3.png" width="100%" (click)="onColorEffect('negative')" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-6">
+          <img src="assets/4.png" width="100%" (click)="onColorEffect('posterize')" />
+        </div>
+        <div class="col col-6">
+          <img src="assets/5.png" width="100%" (click)="onColorEffect('sepia')" />
+        </div>
+        <div class="col col-6">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-6">
+        </div>
+      </div>
+    </div>
+    <div [hidden]="!takenImage && iosDevice" style = "border: none">
+      <div class="row" style = "border: none">
+        <div class="col col-12" [style.background-size]="'cover'" [style.background-repeat]= "'no-repeat'" [style.background-image]="'url(' + takenImageSrc + ')'" [style.width.px]="takenImageWidth" [style.height.px]="takenImageHeight">
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>
+
+<ion-footer id="cameraFooter">
+  <ion-toolbar>
+    <ion-buttons left>
+      <button (click)="onPicImageFromGallery()" style="background-color : transparent; justify-content : center; align-items : center; align-self : center;">
+        <ion-icon ios="ios-images" md="md-images" style="color : #ffffff; font-size : 34px;"></ion-icon>
+        <!-- <ion-icon *ngIf = "!imageUrl && iosDevice" ios="ios-images" md="md-images" style="color : #ffffff; font-size : 34px;"></ion-icon> -->
+        <!-- <img *ngIf = "imageUrl && iosDevice" width="30" height="30" [src]="imageUrl" alt="Loading..." style="color : #ffffff;" /> -->
+      </button>
+    </ion-buttons>
+    <div style="text-align : center; align-self : center;">
+      <ion-buttons>
+        <button color="light" (click)="takePicture()" [disabled]="clickPhoto" style="background-color : transparent; justify-content : center; align-items : center; align-self : center;">
+          <ion-icon name="ios-radio-button-on" style="font-size : 54px; color : #ffffff"></ion-icon>
+        </button>
+      </ion-buttons>
+    </div>
+    <ion-buttons right>
+      <button style="background-color : #000000" (click)="rotateCamera()">
+        <ion-icon name="ios-reverse-camera-outline" style="font-size : 40px; color : #ffffff"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-footer>

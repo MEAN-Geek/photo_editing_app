@@ -1,0 +1,44 @@
+page-camera-view {
+    html, body, ion-view {
+        background: transparent;
+    }
+
+    .toolbar-md {
+        padding: 0px;
+        min-height: 0px;
+      }
+    
+    .flashMode {
+        background-color : #000000;
+        padding-top : 10px;
+        position: absolute;
+        top : 0px;
+        left : 0px;
+    }
+    .colorEffect {
+        background-color : #000000;
+        padding-top : 10px;
+        position: absolute;
+        top : 0px;
+        right : 0px;
+    }
+
+    .modeBtn {
+        padding : 10px 25px;
+    }
+
+    ion-scroll .scroll-content {
+        min-height: 44px;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        overflow-x: hidden;
+        -webkit-overflow-scrolling: touch;
+        will-change: scroll-position;
+    }
+    .color-items{
+        padding : 4px 16px;
+    }
+}
+
+

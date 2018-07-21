@@ -1,0 +1,66 @@
+page-home {
+    .background{
+        background-color: #000000;
+    }
+    .scroll-content{
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+        display: flex;
+    }
+    ion-content.content{
+        background-color: #000000;
+    }
+
+    ion-item.item{
+        background-color: #000000;
+        width : auto;
+        height: 50px;
+            
+    }
+    ion-list.list{
+        position : absolute;
+        bottom : 0px;
+        left : 0px;
+        right : 0px;
+        padding: 0px 0px 10px 0px;
+        margin: 0px 0px 5px 0px;
+    }
+    .list-ios > .item-block:last-child,.item-inner, .list-ios > .item-block:first-child, .list-ios > .item-wrapper:last-child .item-block {
+        border : none;
+    }
+
+    .list a.item
+    {
+    border-top: 0px !important;
+    border-left: 0px;
+    border-right: 0px;
+    border-bottom: 0px !important;
+    }
+
+    #delaunay{
+        padding-top: 10px;
+        padding-bottom: 10px;
+    }
+
+    #rangeSelection {
+        position : fixed; bottom : 0px; left : 0px; right : 0px; background-color : gray; padding : 0px; margin : 0px; border-color : #000000;
+    }
+
+    .toolbar-ios {
+        //workaround: statusbar height is too small on root view without home button
+        // -> manually set min-height on root view (verified on iOS 10)
+        min-height: 70px;
+    }
+
+    .rotate-left{
+        transform:rotate(90deg);
+    }
+    .rotate-right{
+        transform:rotate(-90deg);
+    }
+
+    .star-ionic{
+        font-size: 20;
+    }
+}

@@ -1,0 +1,87 @@
+<ion-header>
+  <ion-toolbar color="toolbarColor">
+    <ion-buttons left>
+      <button ion-button icon-only color="light" (click)="onBack()" [disabled]="onShareButtonClicked">
+        <ion-icon ios="ios-arrow-back" md="md-arrow-back" color="toolbarIconColor"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-title>
+      Trianglify
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only color="toolbarIconColor" (click)="onRotate()">
+        <ion-icon ios="ios-repeat" md="md-repeat"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end>
+      <button ion-button icon-only color="toolbarIconColor" (click)="onShare()" [disabled]="onShareButtonClicked">
+        <ion-icon ios="ios-share-outline" md="md-share"></ion-icon>
+      </button>
+    </ion-buttons>
+    <ion-buttons end *ngIf="deviceAndroid">
+      <button ion-button icon-only color="toolbarIconColor" (click)="saveImageInGallery();">
+        <ion-icon ios="ios-download" md="md-download"></ion-icon>
+      </button>
+    </ion-buttons>
+
+
+    <ion-buttons end *ngIf="!deviceAndroid">
+      <button ion-button icon-only color="toolbarIconColor" (click)="onShareViaInstagram();" [disabled]="onShareViaInstagramButtonClicked">
+        <ion-icon ios="logo-instagram" md="logo-instagram"></ion-icon>
+      </button>
+    </ion-buttons>
+
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <div>
+    <canvas id="delaunay" [class]="rotation">
+    </canvas>
+  </div>
+  <div [ngSwitch]="algorithm">
+    <ion-list *ngSwitchCase="'yape06'">
+      <ion-item no-line style="border-bottom-width : 8px; border-bottom-style : solid ;border-bottom-color : #000000">
+        <ion-range min="1" max="100" [(ngModel)]="yapeLaplacian" (ionBlur)="manipulateImage()" color="light">
+          <ion-label range-left>
+            <img src="assets/starlight.png" width="16" height="16">
+          </ion-label>
+          <ion-label range-right>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAFsAAABbCAMAAAAr6AmrAAAAaVBMVEUAAAD////IyMjBwcG0tLS6urr6+vru7u7MzMzq6updXV3FxcXk5OSdnZ3e3t739/cwMDCDg4MlJSVTU1OkpKTY2Nh1dXVkZGR8fHyQkJBBQUGqqqpOTk7S0tJJSUkWFhY5OTkMDAwcHBylZeoCAAACmklEQVRogeWZ23aCMBBFHRWIYiHYqmi1ov//kUUgSi7ATJysPvS8QvaCwzCXZDb7D9oGZKf3YOgK1sHYR1gGY+8gD4XeAgQz5VizQ5lyqdmrMGgZQzBTigcavoOwRcMOYsq9sQTgMwC7bNHwFYA979gBTLnmHRt+2Nl7hQ4QKemTzW9K/GSzm3J4oeGDmR312Bkv+pb02HBiZfct4TZlqbE3rOxYYwNnL7HW0XBkZC8N9o6RvTLYccWGNi3hNOXbYvOZYlpS68aEPtloKJjYXw72hYntsATiK2LhZ7RsFTVatJorCSEuDnT9NesrQt2VdssahOLt62IVO9e+rSahyV0AcqLamA92dNQzPZm+naKy/0VvC0byThrxUrChHU3dKWMhJwdnqNspiS4xVJIO+fTicY3kXineIm/Ow+jZe6EejZJrnX1DPd5PoetG2y/UM1yz5RPq6Kb85MrYY4rdQe1WNM3r6ULrsyi+kIeUaoMk5xQ/lHDxkplJD6cjAj35vwzojqikvhN4OY323qtJp9G+w+YN1VyMp74hHabB4LstgYtBv7kKWYR8hk2cJX7DJjZd+Uzg6PpTkdH2/DQk+lyFb1boI4Sz9AinUdRMeHYw6kru7NWpc5XDknkz4jgaGOqwab+8+mRr+xLtFMKyJKteF638SDPFHCn1jGQWakFi64U4MTe9K71XzymR8qM/lsNPfUeltG8YlBYMbje1Xp1iSs+SwZ5a9udlPFq+Fo3V2t7bIfrjTs/GZKKnfo2lKZqtosAaFC2pJJ9jf5+qW4CpKCXRlNaSBNcyyfYlF0h2k+sW6B2p5h9GHuJtqX/D+hHquPOqQs9MCD12GnCNofA4rSggwdwmVz7HcXKFGR+k3yAw4z/2+Sv9AguTHD2g859tAAAAAElFTkSuQmCC"
+              width="18" height="18">
+          </ion-label>
+        </ion-range>
+      </ion-item>
+      <ion-item no-line style="border-bottom-width : 8px; border-bottom-style : solid ;border-bottom-color : #000000">
+        <ion-range min="1" max="250" [(ngModel)]="yapeMineigen" (ionBlur)="manipulateImage()" color="light">
+          <ion-label range-left>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAY1BMVEUAAAD///+0tLT7+/vR0dHy8vLCwsL4+PghISFqamrl5eW/v7/d3d2Xl5fv7++wsLAZGRmpqalNTU0mJiZ/f39jY2NCQkKJiYl5eXkSEhI8PDyPj48rKytWVlZbW1udnZ0zMzMwXmtnAAAC10lEQVRoge2a2WKiQBBFLRFBJLhMNIpx+f+vnBlJGcCil+qq5oXznpwXbnNvy2w2MTEx0eJ7P5p6U45l3mfwNZJ6AVCNYz7BPzajqNP/aqhHMN+fZljGN9dZo4ZVdPX6xwzlNrL5AC8ukdXlrzr9jmq+QIt5THOdttXJIaJ6Dh0W8cy3pKuGz2jqRc8MRSzzqW8GuEdSp+9qyKOY74QZ1jHMx/4z1hAjYGvSDAv9o3xFmyFCV3oLFlL8UTZ/DZkBdrrmPBtWJ0dV9XzYrHyUX+lgIZpdafAZa1AcI8Th3UUvYIVNnWod5R82s1rAjoZgvdCZvQOHdxeVgK3MwUJO8uazJVhIKf+kGQ7vLh/S5m3lqs6kx8jG1SzelWp3s3TAHJ+xBtGjfLAV0QiOkW1p17UR7ErOwULEAvag5oaRTKorGVsRjdC90tukdUGmK3kFCxF5g31yzCJd6WxtRTRV+BuMnLQuBHelLdcMEPoGW/LVgQG78c2BAXNtRTRBF7fMYCEBAXswg4VUD7Z6F2YOuLh1mhtGkitTHRAshHmUe7YiGt4YCXzGGlgXt96tiIbRlXLvVkTDGCMec8OMd8D2UmYA34AFHd5dPANmvSvywWuM5CLBQgqfJ83hrsgHj19GaqFgIR5jxOmuyAfnrnSVNgPcHNWek9YFx7UvGizEKWCywUIql7XPnhtmHMbIPrgV0WT2eyXxYCHWgIm0IhrbGFEIFmIJ2MX+H/gYvyLJnS9hORjXvlgrojF8pnXUNQMMv8EEWxHNYFc62P82lIGAnRWDhRRnUq0aLIQcI7VqsJCKetKUg4UQY+Sq9MbqQ3ympR4s5C1gKq2Ipr/2ozxjDb0vbpVaEU1njDw4F/1skkdLzfh1I4RWwBTmhpnftR8tWMgrYBGDhfyMEZ25YaZoulLwJSyH5xjRmhtmnmNE4BKWwzJKK6I5zFa7zXwENrv4X9NPTEyo8xftfijMBPFrtAAAAABJRU5ErkJggg=="
+              width="16" height="16">
+          </ion-label>
+          <ion-label range-right>
+            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAHoAAAB6CAMAAABHh7fWAAAAY1BMVEUAAAD///+0tLT7+/vR0dHy8vLCwsL4+PghISFqamrl5eW/v7/d3d2Xl5fv7++wsLAZGRmpqalNTU0mJiZ/f39jY2NCQkKJiYl5eXkSEhI8PDyPj48rKytWVlZbW1udnZ0zMzMwXmtnAAAC10lEQVRoge2a2WKiQBBFLRFBJLhMNIpx+f+vnBlJGcCil+qq5oXznpwXbnNvy2w2MTEx0eJ7P5p6U45l3mfwNZJ6AVCNYz7BPzajqNP/aqhHMN+fZljGN9dZo4ZVdPX6xwzlNrL5AC8ukdXlrzr9jmq+QIt5THOdttXJIaJ6Dh0W8cy3pKuGz2jqRc8MRSzzqW8GuEdSp+9qyKOY74QZ1jHMx/4z1hAjYGvSDAv9o3xFmyFCV3oLFlL8UTZ/DZkBdrrmPBtWJ0dV9XzYrHyUX+lgIZpdafAZa1AcI8Th3UUvYIVNnWod5R82s1rAjoZgvdCZvQOHdxeVgK3MwUJO8uazJVhIKf+kGQ7vLh/S5m3lqs6kx8jG1SzelWp3s3TAHJ+xBtGjfLAV0QiOkW1p17UR7ErOwULEAvag5oaRTKorGVsRjdC90tukdUGmK3kFCxF5g31yzCJd6WxtRTRV+BuMnLQuBHelLdcMEPoGW/LVgQG78c2BAXNtRTRBF7fMYCEBAXswg4VUD7Z6F2YOuLh1mhtGkitTHRAshHmUe7YiGt4YCXzGGlgXt96tiIbRlXLvVkTDGCMec8OMd8D2UmYA34AFHd5dPANmvSvywWuM5CLBQgqfJ83hrsgHj19GaqFgIR5jxOmuyAfnrnSVNgPcHNWek9YFx7UvGizEKWCywUIql7XPnhtmHMbIPrgV0WT2eyXxYCHWgIm0IhrbGFEIFmIJ2MX+H/gYvyLJnS9hORjXvlgrojF8pnXUNQMMv8EEWxHNYFc62P82lIGAnRWDhRRnUq0aLIQcI7VqsJCKetKUg4UQY+Sq9MbqQ3ympR4s5C1gKq2Ipr/2ozxjDb0vbpVaEU1njDw4F/1skkdLzfh1I4RWwBTmhpnftR8tWMgrYBGDhfyMEZ25YaZoulLwJSyH5xjRmhtmnmNE4BKWwzJKK6I5zFa7zXwENrv4X9NPTEyo8xftfijMBPFrtAAAAABJRU5ErkJggg=="
+              width="18" height="18">
+          </ion-label>
+        </ion-range>
+      </ion-item>
+    </ion-list>
+    <ion-list id="rangeSelection" *ngSwitchCase="'yape'">
+      <ion-item>
+        <ion-range min="1" max="10" [(ngModel)]="radius" (ngModelChange)="manipulateImage()" color="secondary">
+          <ion-label range-left>1</ion-label>
+          <ion-label range-right>{{radius}}</ion-label>
+        </ion-range>
+      </ion-item>
+
+    </ion-list>
+    <ion-list style="position : fixed; bottom : 0px; left : 0px; right : 0px; background-color : gray; padding : 0px; margin : 0px"
+      *ngSwitchCase="'fast'">
+      <ion-item>
+        <ion-range min="1" max="50" [(ngModel)]="threshold" (ngModelChange)="manipulateImage()" color="secondary">
+          <ion-label range-left>1</ion-label>
+          <ion-label range-right>{{threshold}}</ion-label>
+        </ion-range>
+      </ion-item>
+    </ion-list>
+  </div>
+</ion-content>
